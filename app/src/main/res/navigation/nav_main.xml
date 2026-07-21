@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/feedFragment">
+
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="ru.netology.nmedia.fragment.FeedFragment"
+        android:label="FeedFragment"
+        tools:layout="@layout/fragment_feed"
+        >
+        <action
+            android:id="@+id/action_feedFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_openPostFragment"
+            app:destination="@id/openPostFragment" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/editPostFragment"
+        android:name="ru.netology.nmedia.fragment.EditPostFragment"
+        android:label="EditPostFragment"
+        tools:layout="@layout/fragment_edit_post"
+        />
+
+
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="ru.netology.nmedia.fragment.CreatePostFragment"
+        android:label="fragment_edit_post"
+        tools:layout="@layout/fragment_edit_post" />
+    <fragment
+        android:id="@+id/openPostFragment"
+        android:name="ru.netology.nmedia.fragment.OpenPostFragment"
+        android:label="fragment_open_post"
+        tools:layout="@layout/fragment_open_post" >
+        <action
+            android:id="@+id/action_openPostFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+    </fragment>
+</navigation>

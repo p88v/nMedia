@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="Widget.AppTheme.LikeCheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+
+    <item name="buttonTint">@color/like_color_selector</item>
+
+    </style>
+
+    <style name="Widget.AppTheme.IconButton" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">@color/share</item>
+    </style>
+
+
+    <style name="Widget.AppTheme.IconButton.Outlinedd" parent ="Widget.Material3.Button.IconButton">
+        <item name="iconTint">@color/outlined_menue</item>
+    </style>
+    
+    
+</resources>

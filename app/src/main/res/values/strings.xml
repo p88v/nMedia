@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">nMedia</string>
+    <string name="nmedia_tv">NMedia!</string>
+    <string name="remove">remove</string>
+    <string name="content">Content</string>
+    <string name="edit">Edit</string>
+    <string name="edit_message">Edit Post</string>
+    <string name="write_text">Write text</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/imgAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_person_with_empty_avatar" />
+
+    <TextView
+        android:id="@+id/tvNameAuthor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/tvPublished"
+        app:layout_constraintEnd_toStartOf="@id/img_btn_more"
+        app:layout_constraintStart_toEndOf="@id/imgAvatar"
+        app:layout_constraintTop_toTopOf="@id/imgAvatar"
+        tools:text="@sample/posts.json/data/author" />
+
+    <TextView
+        android:id="@+id/tvPublished"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@id/imgAvatar"
+        app:layout_constraintTop_toBottomOf="@id/tvNameAuthor"
+        tools:text="@sample/posts.json/data/published" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/img_btn_more"
+        style="@style/Widget.AppTheme.IconButton.Outlinedd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@null"
+        app:icon="@drawable/ic_more_vert_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="imgAvatar,tvPublished, img_btn_more" />
+
+
+    <TextView
+        android:id="@+id/tvPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autoLink="web"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barier"
+        tools:text="@sample/posts.json/data/content" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/btn_zaglushka"
+        android:layout_width="348dp"
+        android:layout_height="348dp"
+        app:srcCompat="@drawable/zaglushka"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPost"
+        android:visibility="gone"
+        />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barierBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="btn_zaglushka"
+        />
+
+    <com.google.android.material.checkbox.MaterialCheckBox
+        android:id="@+id/btn_img_like"
+        android:layout_width="wrap_content"
+        style="@style/Widget.AppTheme.LikeCheckBox"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:button="@drawable/ic_like_state_list"
+        android:contentDescription="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barierBottom" />
+
+    <TextView
+        android:id="@+id/tv_count_likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_img_like"
+        app:layout_constraintStart_toEndOf="@id/btn_img_like"
+        app:layout_constraintTop_toTopOf="@id/btn_img_like"
+        tools:text="100" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_img_share"
+        style="@style/Widget.AppTheme.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:icon="@drawable/ic_share_24"
+        app:layout_constraintBottom_toBottomOf="@id/tv_count_likes"
+        app:layout_constraintStart_toEndOf="@id/tv_count_likes"
+        app:layout_constraintTop_toTopOf="@id/tv_count_likes" />
+
+    <TextView
+        android:id="@+id/tv_views"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/btn_img_like"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_img_like"
+        tools:text="150" />
+
+    <ImageView
+        android:id="@+id/img_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:src="@drawable/ic_views_24"
+        app:layout_constraintBottom_toBottomOf="@id/tv_views"
+        app:layout_constraintEnd_toStartOf="@id/tv_views"
+        app:layout_constraintTop_toTopOf="@id/tv_views" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
