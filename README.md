@@ -6,7 +6,13 @@ The application uses Retrofit for network communication, Room for local data sto
 
 ## Screenshots
 
-<!-- Screenshots will be added here -->
+<p align="center">
+  <img src="screenshots/post_feed.png" width="160" alt="Post Feed"/>
+  <img src="screenshots/detail.png" width="160" alt="Post Details"/>
+  <img src="screenshots/create.png" width="160" alt="Create Post"/>
+  <img src="screenshots/edit.png" width="160" alt="Edit Post"/>
+  <img src="screenshots/post_actions.png" width="160" alt="Post Actions"/>
+</p>
 
 ## Features
 
