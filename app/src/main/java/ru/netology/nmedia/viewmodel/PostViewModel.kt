@@ -1,0 +1,111 @@
+package ru.netology.nmedia.viewmodel
+
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import ru.netology.nmedia.api.ApiProvider
+import ru.netology.nmedia.db.AppDb
+import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.repository.PostRepository
+import ru.netology.nmedia.repository.PostRepositoryImpl
+import ru.netology.nmedia.ui.uiState.PostUiState
+import kotlinx.coroutines.flow.stateIn
+
+
+private val empty = Post()
+
+class PostViewModel(application: Application) : AndroidViewModel(application) {
+
+
+    private val dao = AppDb.getInstance(application).postDao()
+    private val repository: PostRepository = PostRepositoryImpl(
+        dao = dao,
+        apiService = ApiProvider.apiService,
+    )
+
+    init {
+        loadPostsFromServer()
+    }
+
+
+    val uiStaet: StateFlow<PostUiState> = repository.getAll().map { posts ->
+        PostUiState(
+            posts = posts,
+            empty = posts.isEmpty(),
+            loading = false,
+            error = null,
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = PostUiState(loading = true)
+    )
+
+
+
+    val edited = MutableLiveData(empty)
+    fun like(id: Long) {
+        viewModelScope.launch {
+            repository.like(id)
+        }
+    }
+
+    fun share(id: Long) {
+        viewModelScope.launch {
+            repository.share(id)
+        }
+    }
+
+
+    fun edit() {
+        edited.value = Post()
+    }
+
+
+    fun save(content: String) {
+        viewModelScope.launch {
+            edited.value?.let {
+                val trimed = content.trim()
+                if (it.content != trimed) {
+                    repository.save(it.copy(content = trimed))
+                }
+
+            }
+            edited.value = empty
+        }
+    }
+
+    fun remove(id: Long) {
+        viewModelScope.launch {
+            repository.remove(id)
+        }
+    }
+
+    fun edit(post: Post) {
+        edited.value = post
+    }
+
+    fun loadPostsFromServer() {
+        viewModelScope.launch {
+            try {
+                Log.d("RETROFIT", "Start")
+                repository.loadFromServer()
+                Log.d("RETROFIT", "Запустилось")
+            } catch (
+                e: Exception
+            ) {
+                Log.d("RETROFIT", "exeption", e)
+            }
+
+        }
+    }
+
+}
