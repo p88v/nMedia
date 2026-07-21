@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nmedia_tv">НМедиа!</string>
+    <string name="app_name">НМедиа</string>
+    <string name="remove">Удалить</string>
+    <string name="content">Текст</string>
+    <string name="edit">Редактировать</string>
+    <string name="edit_message">Редактируемый пост</string>
+    <string name="write_text">Напечатайте текст</string>
+</resources>
+
