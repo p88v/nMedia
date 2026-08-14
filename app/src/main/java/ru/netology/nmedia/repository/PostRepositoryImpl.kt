@@ -11,7 +11,7 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 
 class PostRepositoryImpl(private val dao: PostDao,
-    private val apiService: PostApiService) : PostRepository {
+                         private val apiService: PostApiService) : PostRepository {
 
     override fun getAll(): Flow<List<Post>> {
         return dao.getAll().map { entities ->
@@ -35,9 +35,11 @@ class PostRepositoryImpl(private val dao: PostDao,
                 PostEntity.fromDto(
                     Post(
                         id = postDto.id,
-                        author = "User ${postDto.userId}",
-                        content = "${postDto.title}\n\n${postDto.body}",
-                        published = "Now"
+                        author = "User ${postDto.author}",
+                        content = "${postDto.content}",
+                        published = "Now",
+                        likes = postDto.likes,
+                        likedByMe = postDto.likedByMe
                     )
                 )
             )

@@ -2,6 +2,7 @@ package ru.netology.nmedia.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.netology.nmedia.api.PostDTO
 import ru.netology.nmedia.dto.Post
 import kotlin.Long
 
@@ -33,7 +34,7 @@ data class PostEntity(
 
     companion object {
         fun fromDto(dto: Post): PostEntity {
-          return   PostEntity(
+            return PostEntity(
                 id = dto.id,
                 author = dto.author,
                 content = dto.content,

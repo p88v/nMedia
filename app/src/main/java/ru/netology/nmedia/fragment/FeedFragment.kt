@@ -22,8 +22,6 @@ import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -94,6 +92,9 @@ class FeedFragment : Fragment() {
             }
         }
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadPostsFromServer()
+        }
 
 
         return binding.root
