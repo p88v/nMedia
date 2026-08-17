@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
-    id("com.google.gms.google-services")
     id("com.google.devtools.ksp") version "2.3.9"
 
     alias(libs.plugins.kotlin.compose)
@@ -70,6 +69,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.swiperefreshlayout)
     val navVersion = "2.8.9"
     val roomVersion = "2.8.4"
     val lifecycleVersion = "2.10.0"
@@ -134,13 +134,7 @@ dependencies {
         "com.google.code.gson:gson:2.11.0"
     )
 
-    // Firebase
-    implementation(
-        platform("com.google.firebase:firebase-bom:34.15.0")
-    )
-    implementation(
-        "com.google.firebase:firebase-messaging"
-    )
+
 
     // Compose
     implementation(
