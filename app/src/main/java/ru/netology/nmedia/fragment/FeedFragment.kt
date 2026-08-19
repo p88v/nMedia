@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -39,7 +41,8 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onClick(post: Post) {
-                    findNavController().navigate(R.id.action_feedFragment_to_openPostFragment,
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_openPostFragment,
                         Bundle().apply {
                             longArg = post.id
                         }
@@ -85,9 +88,23 @@ class FeedFragment : Fragment() {
         binding.list.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiStaet.collect { postUiState ->
                     adapter.submitList(postUiState.posts)
+
+                    binding.swipeRefresh.isRefreshing = postUiState.loading
+
+                    postUiState.error?.let { errorText ->
+                        Toast.makeText(requireContext(), errorText, Toast.LENGTH_SHORT).show()
+                    }
+
+                    if (postUiState.error == null && postUiState.loading == false && postUiState.empty) {
+                        binding.emptyPost.isVisible = true
+                    } else {
+                        binding.emptyPost.isVisible = false
+                    }
+
+
                 }
             }
         }

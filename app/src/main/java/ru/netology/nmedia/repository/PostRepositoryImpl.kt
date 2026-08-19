@@ -28,6 +28,9 @@ class PostRepositoryImpl(private val dao: PostDao,
             error("Server error: ${response.code()}")
         }
 
+
+
+
         val posts = response.body().orEmpty()
 
         posts.forEach { postDto ->

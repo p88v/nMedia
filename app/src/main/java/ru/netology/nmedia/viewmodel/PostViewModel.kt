@@ -4,21 +4,21 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.api.ApiProvider
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
+import ru.netology.nmedia.ui.uiState.NetworkUiState
 import ru.netology.nmedia.ui.uiState.PostUiState
-import kotlinx.coroutines.flow.stateIn
-
+import kotlinx.coroutines.flow.combine
 
 private val empty = Post()
 
@@ -35,20 +35,23 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         loadPostsFromServer()
     }
 
+    val networkUiState = MutableStateFlow(NetworkUiState())
 
-    val uiStaet: StateFlow<PostUiState> = repository.getAll().map { posts ->
+    val uiStaet = combine(
+        repository.getAll(),
+        networkUiState
+    ) { posts, network ->
         PostUiState(
             posts = posts,
             empty = posts.isEmpty(),
-            loading = false,
-            error = null,
+            loading = network.loading,
+            error = network.error,
         )
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.WhileSubscribed(10_000),
         initialValue = PostUiState(loading = true)
     )
-
 
 
     val edited = MutableLiveData(empty)
@@ -95,14 +98,25 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadPostsFromServer() {
         viewModelScope.launch {
+            networkUiState.value = networkUiState.value.copy(
+                loading = true
+            )
             try {
                 Log.d("RETROFIT", "Start")
                 repository.loadFromServer()
+                networkUiState.value = networkUiState.value.copy(
+                    loading = false,
+                    error = null
+                )
                 Log.d("RETROFIT", "Запустилось")
             } catch (
                 e: Exception
             ) {
                 Log.d("RETROFIT", "exeption", e)
+                networkUiState.value = networkUiState.value.copy(
+                    loading = false,
+                    error = e.message
+                )
             }
 
         }
