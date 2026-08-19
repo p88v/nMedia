@@ -24,14 +24,8 @@ class PostRepositoryImpl(private val dao: PostDao,
     override suspend fun loadFromServer() {
         val response = apiService.getAll()
 
-        if (!response.isSuccessful) {
-            error("Server error: ${response.code()}")
-        }
 
-
-
-
-        val posts = response.body().orEmpty()
+        val posts = response
 
         posts.forEach { postDto ->
             dao.insert(

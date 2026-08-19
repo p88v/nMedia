@@ -10,5 +10,5 @@ import retrofit2.http.Path
 interface PostApiService {
 
     @GET("api/posts")
-    suspend fun getAll(): Response<List<PostDTO>>
+    suspend fun getAll(): List<PostDTO>
 }
