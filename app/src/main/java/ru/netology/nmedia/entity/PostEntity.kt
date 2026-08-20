@@ -3,6 +3,7 @@ package ru.netology.nmedia.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.nmedia.api.PostDTO
+import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Post
 import kotlin.Long
 
@@ -12,6 +13,8 @@ data class PostEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val author: String = "",
+    val authorPicture: String = "",
+    val attachment: Attachment? = null,
     val content: String = "",
     val published: String = "",
     val likes: Int = 0,
@@ -23,6 +26,8 @@ data class PostEntity(
     fun toDto() = Post(
         id = id,
         author = author,
+        authorPicture = authorPicture,
+        attachment = attachment,
         content = content,
         published = published,
         likes = likes,
@@ -37,6 +42,8 @@ data class PostEntity(
             return PostEntity(
                 id = dto.id,
                 author = dto.author,
+                authorPicture = dto.authorPicture,
+                attachment = dto.attachment,
                 content = dto.content,
                 published = dto.published,
                 likes = dto.likes,

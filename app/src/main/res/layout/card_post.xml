@@ -66,7 +66,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barier"
-        tools:text="@sample/posts.json/data/content" />
+        tools:text="kdsj;kljsdgkjsldkgjskldjglk;sdjglksdjglksdjglksdjglksdjglksjdglksjdglkjsdglkjsdlkgjslkdgjlksdjglksjdglksjdglksjdglksjdglksjdgklsjdglkjsdgkljsdlgkjslkdgjskldgjslkdgjlskdjglksjdglksjgdlksjdglksjdgksjgdklsjdgklsjgdkljsg" />
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/btn_zaglushka"
@@ -75,8 +76,46 @@
         app:srcCompat="@drawable/zaglushka"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPost"
+        app:layout_constraintTop_toBottomOf="@id/link"
         android:visibility="gone"
+        />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/my_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="img_view_post, link, descr" />
+
+    <ImageView
+        android:id="@+id/img_view_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvPost"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/_68071_send_message_icon"
+        />
+
+    <TextView
+        android:id="@+id/link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="https://example.com"
+        android:autoLink="web"
+        android:linksClickable="true"
+        app:layout_constraintTop_toBottomOf="@id/descr"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/descr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/img_view_post"
+        tools:text="привет это описание картинки"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
     <androidx.constraintlayout.widget.Barrier

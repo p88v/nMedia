@@ -33,6 +33,8 @@ class PostRepositoryImpl(private val dao: PostDao,
                     Post(
                         id = postDto.id,
                         author = "User ${postDto.author}",
+                        authorPicture = "http://10.0.2.2:9999/avatars/${postDto.authorPicture}",
+                        attachment = postDto.attachment,
                         content = "${postDto.content}",
                         published = "Now",
                         likes = postDto.likes,
@@ -40,6 +42,7 @@ class PostRepositoryImpl(private val dao: PostDao,
                     )
                 )
             )
+
         }
     }
 

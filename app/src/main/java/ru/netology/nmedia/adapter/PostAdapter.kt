@@ -1,7 +1,9 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
@@ -13,6 +15,7 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import kotlin.math.floor
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 
 
 interface PostListner {
@@ -71,6 +74,26 @@ class PostViewHolder(
             tvCountLikes.text = convertNumbers(post.likes)
             btnImgShare.text = convertNumbers(post.countShare)
             tvViews.text = convertNumbers(post.countViews)
+
+
+
+            Glide.with(imgAvatar)
+                .load(post.authorPicture)
+                .circleCrop()
+                .placeholder(R.drawable.avatarIsEmpty)
+                .error(R.drawable.ERROR)
+                .into(imgAvatar)
+
+            if(post.attachment != null){
+                myGroup.visibility = View.VISIBLE
+                Glide.with(imgViewPost)
+                    .load("http://10.0.2.2:9999/images/${post.attachment.image}")
+                    .into(imgViewPost)
+
+                descr.text = post.attachment.describe
+                link.text = post.attachment.url
+            } else myGroup.visibility = View.GONE
+
 
             tvPost.setOnClickListener {
                 listner.onClick(post)
