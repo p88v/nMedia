@@ -5,7 +5,7 @@ import ru.netology.nmedia.dto.Attachment
 data class PostDTO(
     val id: Long,
     val author: String,
-    val authorPicture: String,
+    val authorAvatar: String,
     val attachment: Attachment? = null,
     val content: String,
     val published: String,

@@ -1,8 +1,5 @@
 package ru.netology.nmedia.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApiService
@@ -33,7 +30,7 @@ class PostRepositoryImpl(private val dao: PostDao,
                     Post(
                         id = postDto.id,
                         author = "User ${postDto.author}",
-                        authorPicture = "http://10.0.2.2:9999/avatars/${postDto.authorPicture}",
+                        authorAvatar = "http://10.0.2.2:9999/avatars/${postDto.authorAvatar}",
                         attachment = postDto.attachment,
                         content = "${postDto.content}",
                         published = "Now",

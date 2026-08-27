@@ -1,6 +1,5 @@
 package ru.netology.nmedia.adapter
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -78,7 +77,7 @@ class PostViewHolder(
 
 
             Glide.with(imgAvatar)
-                .load(post.authorPicture)
+                .load(post.authorAvatar)
                 .circleCrop()
                 .placeholder(R.drawable.avatar_is_empty)
                 .error(R.drawable.error)
@@ -88,6 +87,7 @@ class PostViewHolder(
                 myGroup.visibility = View.VISIBLE
                 Glide.with(imgViewPost)
                     .load("http://10.0.2.2:9999/images/${post.attachment.image}")
+                    .timeout(10_000)
                     .into(imgViewPost)
 
                 descr.text = post.attachment.describe
