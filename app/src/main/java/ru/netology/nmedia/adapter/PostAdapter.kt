@@ -80,8 +80,8 @@ class PostViewHolder(
             Glide.with(imgAvatar)
                 .load(post.authorPicture)
                 .circleCrop()
-                .placeholder(R.drawable.avatarIsEmpty)
-                .error(R.drawable.ERROR)
+                .placeholder(R.drawable.avatar_is_empty)
+                .error(R.drawable.error)
                 .into(imgAvatar)
 
             if(post.attachment != null){

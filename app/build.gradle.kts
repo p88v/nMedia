@@ -20,12 +20,12 @@ val apiKey = localProperties.getProperty("API_KEY") ?: ""
 
 android {
     namespace = "ru.netology.nmedia"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "ru.netology.nmedia"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 

@@ -11,4 +11,19 @@ interface PostApiService {
 
     @GET("api/posts")
     suspend fun getAll(): List<PostDTO>
+
+    @DELETE("api/posts/{id}")
+    suspend fun deleteById(@Path("id")id: Long)
+
+    @GET("api/posts/{id}")
+    suspend fun getById(@Path("id") id: Long): PostDTO
+
+    @DELETE("api/posts/{id}/likes")
+    suspend fun disLike(@Path("id") id: Long)
+
+    @POST("api/posts/{id}/likes")
+    suspend fun likeById(@Path("id") id: Long)
+
+    @POST("api/posts")
+    suspend fun save(@Body post: PostDTO)
 }

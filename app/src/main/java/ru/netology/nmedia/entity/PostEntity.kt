@@ -1,5 +1,6 @@
 package ru.netology.nmedia.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.nmedia.api.PostDTO
@@ -14,6 +15,7 @@ data class PostEntity(
     val id: Long = 0L,
     val author: String = "",
     val authorPicture: String = "",
+    @Embedded
     val attachment: Attachment? = null,
     val content: String = "",
     val published: String = "",
