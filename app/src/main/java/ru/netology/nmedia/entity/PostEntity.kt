@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Post
 import kotlin.Long
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 
 @Entity(tableName = "posts")
@@ -13,11 +15,11 @@ data class PostEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val author: String = "",
-    val authorAvatar: String = "",
+    val authorAvatar: String? = "",
     @Embedded
     val attachment: Attachment? = null,
     val content: String = "",
-    val published: String = "",
+    val published: Instant,
     val likes: Int = 0,
     val likedByMe: Boolean = false,
     val countShare: Int = 0,

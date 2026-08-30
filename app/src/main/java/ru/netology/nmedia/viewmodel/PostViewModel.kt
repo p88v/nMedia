@@ -75,14 +75,25 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun save(content: String) {
         viewModelScope.launch {
-            edited.value?.let {
-                val trimed = content.trim()
-                if (it.content != trimed) {
-                    repository.save(it.copy(content = trimed))
-                }
 
+            try{
+                edited.value?.let {
+                    val trimmed = content.trim()
+
+                    if (it.content != trimmed) {
+                        Log.d("SAVE", "Перед отправкой: $it")
+
+                        repository.save(it.copy(content = trimmed))
+
+                        Log.d("SAVE", "Успешно отправили")
+                    }
+                }
+                edited.value = empty
+            } catch(e: Exception){
+                Log.e("SAVE", "Ошибка при сохранении", e)
             }
-            edited.value = empty
+
+
         }
     }
 

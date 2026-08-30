@@ -1,5 +1,6 @@
 package ru.netology.nmedia.api
 
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -25,5 +26,5 @@ interface PostApiService {
     suspend fun likeById(@Path("id") id: Long)
 
     @POST("api/posts")
-    suspend fun save(@Body post: PostDTO)
+    suspend fun save(@Body post: PostDTO): PostDTO
 }

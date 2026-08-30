@@ -3,12 +3,15 @@ package ru.netology.nmedia.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApiService
+import ru.netology.nmedia.api.PostDTO
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.PostEntity
 
-class PostRepositoryImpl(private val dao: PostDao,
-                         private val apiService: PostApiService) : PostRepository {
+class PostRepositoryImpl(
+    private val dao: PostDao,
+    private val apiService: PostApiService
+) : PostRepository {
 
     override fun getAll(): Flow<List<Post>> {
         return dao.getAll().map { entities ->
@@ -17,6 +20,7 @@ class PostRepositoryImpl(private val dao: PostDao,
             }
         }
     }
+
 
     override suspend fun loadFromServer() {
         val response = apiService.getAll()
@@ -31,9 +35,8 @@ class PostRepositoryImpl(private val dao: PostDao,
                         id = postDto.id,
                         author = "User ${postDto.author}",
                         authorAvatar = "http://10.0.2.2:9999/avatars/${postDto.authorAvatar}",
-                        attachment = postDto.attachment,
                         content = "${postDto.content}",
-                        published = "Now",
+                        published = postDto.published,
                         likes = postDto.likes,
                         likedByMe = postDto.likedByMe
                     )
@@ -44,7 +47,7 @@ class PostRepositoryImpl(private val dao: PostDao,
     }
 
     override suspend fun like(id: Long) {
-        dao.likeById(id)
+        apiService.likeById(id)
     }
 
     override suspend fun share(id: Long) {
@@ -52,14 +55,13 @@ class PostRepositoryImpl(private val dao: PostDao,
     }
 
     override suspend fun remove(id: Long) {
-        dao.removeById(id)
+        apiService.deleteById(id)
     }
 
     override suspend fun save(post: Post) {
-        dao.save(PostEntity.fromDto(post))
+        val saved = apiService.save(PostDTO.toDto(post))
+        dao.insert(PostEntity.fromDto(PostDTO.fromDto(saved)))
     }
-
-
 
 
 }

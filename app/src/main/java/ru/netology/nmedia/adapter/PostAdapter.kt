@@ -68,7 +68,7 @@ class PostViewHolder(
     fun bind(post: Post) {
         with(binding) {
             tvNameAuthor.text = post.author
-            tvPublished.text = post.published
+            tvPublished.text = post.published.toString()
             tvPost.text = post.content
             tvCountLikes.text = convertNumbers(post.likes)
             btnImgShare.text = convertNumbers(post.countShare)
@@ -78,9 +78,10 @@ class PostViewHolder(
 
             Glide.with(imgAvatar)
                 .load(post.authorAvatar)
+                .timeout(10_000)
                 .circleCrop()
                 .placeholder(R.drawable.avatar_is_empty)
-                .error(R.drawable.error)
+                .error(R.drawable.ic_launcher_netology_foreground)
                 .into(imgAvatar)
 
             if(post.attachment != null){
