@@ -34,18 +34,18 @@
 
         </activity>
 
-        <service
-            android:name=".service.FCMService"
-            android:exported="false">
+<!--        <service-->
+<!--            android:name=".service.FCMService"-->
+<!--            android:exported="false">-->
 
-            <intent-filter>
+<!--            <intent-filter>-->
 
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
 
-            </intent-filter>
+<!--            </intent-filter>-->
 
 
-        </service>
+<!--        </service>-->
 
 
     </application>

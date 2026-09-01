@@ -61,6 +61,12 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun dislike(id: Long){
+        viewModelScope.launch {
+            repository.dislike(id)
+        }
+    }
+
     fun share(id: Long) {
         viewModelScope.launch {
             repository.share(id)

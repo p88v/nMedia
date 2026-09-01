@@ -49,6 +49,10 @@ class FeedFragment : Fragment() {
                     )
                 }
 
+                override fun onDislike(post: Post) {
+                    viewModel.dislike(post.id)
+                }
+
                 override fun onShare(post: Post) {
                     viewModel.share(post.id)
                     val intent = Intent().apply {

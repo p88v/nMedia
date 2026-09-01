@@ -12,7 +12,7 @@
         android:contentDescription="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_person_with_empty_avatar" />
+        tools:src="@drawable/ic_person_with_empty_avatar" />
 
     <TextView
         android:id="@+id/tvNameAuthor"

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 
 interface PostListner {
     fun onLike(post: Post)
+    fun onDislike(post: Post)
     fun onShare(post: Post)
     fun onRemove(post: Post)
     fun onEdit(post: Post)
@@ -74,8 +75,6 @@ class PostViewHolder(
             btnImgShare.text = convertNumbers(post.countShare)
             tvViews.text = convertNumbers(post.countViews)
 
-
-
             Glide.with(imgAvatar)
                 .load(post.authorAvatar)
                 .timeout(10_000)
@@ -87,7 +86,7 @@ class PostViewHolder(
             if(post.attachment != null){
                 myGroup.visibility = View.VISIBLE
                 Glide.with(imgViewPost)
-                    .load("http://10.0.2.2:9999/images/${post.attachment.image}")
+                    .load("http://127.0.0.1:9999/images/${post.attachment.url}")
                     .timeout(10_000)
                     .into(imgViewPost)
 
@@ -136,7 +135,11 @@ class PostViewHolder(
             btnImgLike.isChecked = post.likedByMe
 
             btnImgLike.setOnClickListener {
-                listner.onLike(post)
+                if(post.likedByMe){
+                    listner.onDislike(post)
+                } else {
+                    listner.onLike(post)
+                }
             }
             btnImgShare.setOnClickListener {
                 listner.onShare(post)

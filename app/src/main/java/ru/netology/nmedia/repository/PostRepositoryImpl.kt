@@ -34,7 +34,7 @@ class PostRepositoryImpl(
                     Post(
                         id = postDto.id,
                         author = "User ${postDto.author}",
-                        authorAvatar = "http://10.0.2.2:9999/avatars/${postDto.authorAvatar}",
+                        authorAvatar = "http://127.0.0.1:9999/avatars/${postDto.authorAvatar}",
                         content = "${postDto.content}",
                         published = postDto.published,
                         likes = postDto.likes,
@@ -48,6 +48,10 @@ class PostRepositoryImpl(
 
     override suspend fun like(id: Long) {
         apiService.likeById(id)
+    }
+
+    override suspend fun dislike(id: Long) {
+        apiService.disLike(id)
     }
 
     override suspend fun share(id: Long) {
