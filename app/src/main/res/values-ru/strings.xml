@@ -7,5 +7,6 @@
     <string name="edit">Редактировать</string>
     <string name="edit_message">Редактируемый пост</string>
     <string name="write_text">Напечатайте текст</string>
+    <string name="error_of_server">Ошибка сервера</string>
 </resources>
 

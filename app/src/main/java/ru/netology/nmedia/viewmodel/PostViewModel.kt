@@ -119,17 +119,14 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 loading = true
             )
             try {
-                Log.d("RETROFIT", "Start")
                 repository.loadFromServer()
                 networkUiState.value = networkUiState.value.copy(
                     loading = false,
                     error = null
                 )
-                Log.d("RETROFIT", "Запустилось")
             } catch (
                 e: Exception
             ) {
-                Log.d("RETROFIT", "exeption", e)
                 networkUiState.value = networkUiState.value.copy(
                     loading = false,
                     error = e.message

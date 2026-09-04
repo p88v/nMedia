@@ -9,4 +9,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="emptyUiState">Постов пока нету :(</string>
+    <string name="error_of_server">Error of server</string>
+    <string name="close_app">Close app</string>
+    <string name="try_again">Try again</string>
 </resources>
