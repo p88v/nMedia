@@ -8,6 +8,7 @@ interface PostRepository {
     fun getAll(): Flow<List<Post>>
     suspend fun share(id: Long)
     suspend fun like(id: Long)
+    suspend fun dislike(id: Long)
     suspend fun save(post: Post)
     suspend fun remove(id: Long)
     suspend fun loadFromServer()

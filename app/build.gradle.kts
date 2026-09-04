@@ -20,12 +20,12 @@ val apiKey = localProperties.getProperty("API_KEY") ?: ""
 
 android {
     namespace = "ru.netology.nmedia"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "ru.netology.nmedia"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
@@ -82,6 +82,10 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
+
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:5.0.9")
 
     // Material
     implementation("com.google.android.material:material:1.12.0")
