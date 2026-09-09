@@ -26,5 +26,5 @@ interface PostApiService {
     suspend fun likeById(@Path("id") id: Long)
 
     @POST("api/posts")
-    suspend fun save(@Body post: PostDTO): PostDTO
+    suspend fun save(@Body post: PostDTO): Response<PostDTO>
 }

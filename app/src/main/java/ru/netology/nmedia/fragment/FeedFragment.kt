@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.PostAdapter
@@ -99,7 +100,11 @@ class FeedFragment : Fragment() {
                     binding.swipeRefresh.isRefreshing = postUiState.loading
 
                     postUiState.error?.let { errorText ->
-                        Toast.makeText(requireContext(), errorText, Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.root, "Произошла ошибка", Snackbar.LENGTH_LONG)
+                            .setAction("Повторить попытку") {
+                               viewModel.loadPostsFromServer()
+                            }
+                            .show()
                     }
 
                     if (postUiState.error == null && postUiState.loading == false && postUiState.empty) {

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.SyncStatus
 import kotlin.Long
 import kotlin.time.Clock
 import kotlin.time.Instant
@@ -25,6 +26,7 @@ data class PostEntity(
     val countShare: Int = 0,
     val countViews: Int = 0,
     val video: String? = null,
+    val syncStatus: SyncStatus,
 ) {
     fun toDto() = Post(
         id = id,
@@ -38,6 +40,7 @@ data class PostEntity(
         countShare = countShare,
         countViews = countViews,
         video = video,
+        syncStatus = syncStatus
     )
 
     companion object {
@@ -54,6 +57,7 @@ data class PostEntity(
                 countShare = dto.countShare,
                 countViews = dto.countViews,
                 video = dto.video,
+                syncStatus = dto.syncStatus
             )
         }
     }

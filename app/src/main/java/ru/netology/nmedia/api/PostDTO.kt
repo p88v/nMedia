@@ -1,6 +1,8 @@
 package ru.netology.nmedia.api
 
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.SyncStatus
+import ru.netology.nmedia.entity.PostEntity
 import kotlin.time.Instant
 
 data class PostDTO(
@@ -10,7 +12,8 @@ data class PostDTO(
     val published: Instant,
     val likedByMe: Boolean,
     val likes: Int = 0,
-    val authorAvatar: String? = null
+    val authorAvatar: String? = null,
+    val syncStatus: SyncStatus,
 ) {
 
 
@@ -25,7 +28,21 @@ data class PostDTO(
                 published = post.published,
                 likedByMe = post.likedByMe,
                 likes = post.likes,
-                authorAvatar = post.authorAvatar
+                authorAvatar = post.authorAvatar,
+                syncStatus = post.syncStatus,
+            )
+        }
+
+        fun fromEntity(post: PostEntity): PostDTO{
+            return PostDTO(
+                id = post.id,
+                author = post.author,
+                content = post.content,
+                published = post.published,
+                likes = post.likes,
+                likedByMe = post.likedByMe,
+                authorAvatar = post.authorAvatar,
+                syncStatus = post.syncStatus,
             )
         }
 
@@ -37,7 +54,8 @@ data class PostDTO(
                 published = postDTO.published,
                 likes = postDTO.likes,
                 likedByMe = postDTO.likedByMe,
-                authorAvatar = postDTO.authorAvatar
+                authorAvatar = postDTO.authorAvatar,
+                syncStatus = postDTO.syncStatus,
             )
         }
     }

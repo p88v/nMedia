@@ -15,4 +15,12 @@ data class Post(
    val countShare: Int = 0,
    val countViews: Int = 0,
    val video: String? = null,
+   val syncStatus: SyncStatus,
 )
+
+
+enum class SyncStatus{
+   PENDING,
+   SYNCED,
+   FAILED,
+}

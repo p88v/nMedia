@@ -1,11 +1,13 @@
 package ru.netology.nmedia.repository
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApiService
 import ru.netology.nmedia.api.PostDTO
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.SyncStatus
 import ru.netology.nmedia.entity.PostEntity
 
 class PostRepositoryImpl(
@@ -38,7 +40,8 @@ class PostRepositoryImpl(
                         content = "${postDto.content}",
                         published = postDto.published,
                         likes = postDto.likes,
-                        likedByMe = postDto.likedByMe
+                        likedByMe = postDto.likedByMe,
+                        syncStatus = postDto.syncStatus,
                     )
                 )
             )
@@ -48,10 +51,12 @@ class PostRepositoryImpl(
 
     override suspend fun like(id: Long) {
         apiService.likeById(id)
+        loadFromServer()
     }
 
     override suspend fun dislike(id: Long) {
         apiService.disLike(id)
+        loadFromServer()
     }
 
     override suspend fun share(id: Long) {
@@ -60,12 +65,26 @@ class PostRepositoryImpl(
 
     override suspend fun remove(id: Long) {
         apiService.deleteById(id)
+        loadFromServer()
     }
 
     override suspend fun save(post: Post) {
-        val saved = apiService.save(PostDTO.toDto(post))
-        dao.insert(PostEntity.fromDto(PostDTO.fromDto(saved)))
-    }
 
+
+        val postP = post.copy(syncStatus = SyncStatus.PENDING)
+        val idBd = dao.insert(PostEntity.fromDto(postP))
+
+        val needed = dao.getById(idBd)
+        try {
+            val reponse = apiService.save(PostDTO.toDto(postP))
+
+            if (reponse.isSuccessful) {
+                dao.insert(needed.copy(syncStatus = SyncStatus.SYNCED))
+            }
+
+        } catch (e: Exception) {
+            dao.insert(needed.copy(syncStatus = SyncStatus.FAILED))
+        }
+    }
 
 }
