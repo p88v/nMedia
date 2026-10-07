@@ -2,6 +2,7 @@ package ru.netology.nmedia.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
@@ -13,10 +14,12 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import kotlin.math.floor
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 
 
 interface PostListner {
     fun onLike(post: Post)
+    fun onDislike(post: Post)
     fun onShare(post: Post)
     fun onRemove(post: Post)
     fun onEdit(post: Post)
@@ -66,11 +69,31 @@ class PostViewHolder(
     fun bind(post: Post) {
         with(binding) {
             tvNameAuthor.text = post.author
-            tvPublished.text = post.published
+            tvPublished.text = post.published.toString()
             tvPost.text = post.content
             tvCountLikes.text = convertNumbers(post.likes)
             btnImgShare.text = convertNumbers(post.countShare)
             tvViews.text = convertNumbers(post.countViews)
+
+            Glide.with(imgAvatar)
+                .load(post.authorAvatar)
+                .timeout(10_000)
+                .circleCrop()
+                .placeholder(R.drawable.avatar_is_empty)
+                .error(R.drawable.ic_launcher_netology_foreground)
+                .into(imgAvatar)
+
+            if(post.attachment != null){
+                myGroup.visibility = View.VISIBLE
+                Glide.with(imgViewPost)
+                    .load("http://127.0.0.1:9999/images/${post.attachment.url}")
+                    .timeout(10_000)
+                    .into(imgViewPost)
+
+                descr.text = post.attachment.describe
+                link.text = post.attachment.url
+            } else myGroup.visibility = View.GONE
+
 
             tvPost.setOnClickListener {
                 listner.onClick(post)
@@ -112,7 +135,11 @@ class PostViewHolder(
             btnImgLike.isChecked = post.likedByMe
 
             btnImgLike.setOnClickListener {
-                listner.onLike(post)
+                if(post.likedByMe){
+                    listner.onDislike(post)
+                } else {
+                    listner.onLike(post)
+                }
             }
             btnImgShare.setOnClickListener {
                 listner.onShare(post)

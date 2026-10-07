@@ -1,17 +1,19 @@
 package ru.netology.nmedia.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import ru.netology.nmedia.api.PostApiService
+import ru.netology.nmedia.api.PostDTO
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.SyncStatus
 import ru.netology.nmedia.entity.PostEntity
 
-class PostRepositoryImpl(private val dao: PostDao,
-                         private val apiService: PostApiService) : PostRepository {
+class PostRepositoryImpl(
+    private val dao: PostDao,
+    private val apiService: PostApiService
+) : PostRepository {
 
     override fun getAll(): Flow<List<Post>> {
         return dao.getAll().map { entities ->
@@ -21,14 +23,12 @@ class PostRepositoryImpl(private val dao: PostDao,
         }
     }
 
+
     override suspend fun loadFromServer() {
         val response = apiService.getAll()
 
-        if (!response.isSuccessful) {
-            error("Server error: ${response.code()}")
-        }
 
-        val posts = response.body().orEmpty()
+        val posts = response
 
         posts.forEach { postDto ->
             dao.insert(
@@ -36,18 +36,27 @@ class PostRepositoryImpl(private val dao: PostDao,
                     Post(
                         id = postDto.id,
                         author = "User ${postDto.author}",
+                        authorAvatar = "http://127.0.0.1:9999/avatars/${postDto.authorAvatar}",
                         content = "${postDto.content}",
-                        published = "Now",
+                        published = postDto.published,
                         likes = postDto.likes,
-                        likedByMe = postDto.likedByMe
+                        likedByMe = postDto.likedByMe,
+                        syncStatus = postDto.syncStatus,
                     )
                 )
             )
+
         }
     }
 
     override suspend fun like(id: Long) {
-        dao.likeById(id)
+        apiService.likeById(id)
+        loadFromServer()
+    }
+
+    override suspend fun dislike(id: Long) {
+        apiService.disLike(id)
+        loadFromServer()
     }
 
     override suspend fun share(id: Long) {
@@ -55,14 +64,27 @@ class PostRepositoryImpl(private val dao: PostDao,
     }
 
     override suspend fun remove(id: Long) {
-        dao.removeById(id)
+        apiService.deleteById(id)
+        loadFromServer()
     }
 
     override suspend fun save(post: Post) {
-        dao.save(PostEntity.fromDto(post))
+
+
+        val postP = post.copy(syncStatus = SyncStatus.PENDING)
+        val idBd = dao.insert(PostEntity.fromDto(postP))
+
+        val needed = dao.getById(idBd)
+        try {
+            val reponse = apiService.save(PostDTO.toDto(postP))
+
+            if (reponse.isSuccessful) {
+                dao.insert(needed.copy(syncStatus = SyncStatus.SYNCED))
+            }
+
+        } catch (e: Exception) {
+            dao.insert(needed.copy(syncStatus = SyncStatus.FAILED))
+        }
     }
-
-
-
 
 }

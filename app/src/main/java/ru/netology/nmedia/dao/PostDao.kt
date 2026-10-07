@@ -1,6 +1,5 @@
 package ru.netology.nmedia.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,7 +14,7 @@ interface PostDao {
     fun getAll(): Flow<List<PostEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(post: PostEntity)
+    suspend fun insert(post: PostEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(posts: List<PostEntity>)
@@ -43,6 +42,9 @@ interface PostDao {
 
     @Query("UPDATE posts SET countShare = countShare + 1 WHERE id = :id")
     suspend fun share(id: Long)
+
+    @Query("SELECT * FROM posts WHERE id = :id")
+    suspend fun getById(id: Long): PostEntity
 
     @Query("DELETE FROM posts WHERE id = :id")
     suspend fun removeById(id: Long)

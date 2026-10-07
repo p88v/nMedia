@@ -55,6 +55,10 @@ class OpenPostFragment : Fragment() {
                     startActivity(chooser)
                 }
 
+                override fun onDislike(post: Post) {
+                    viewModel.dislike(post.id)
+                }
+
                 override fun onRemove(post: Post) {
                     viewModel.remove(post.id)
                     findNavController().navigateUp()

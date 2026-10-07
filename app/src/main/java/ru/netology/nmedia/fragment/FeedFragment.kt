@@ -6,12 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.PostAdapter
@@ -27,9 +30,7 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
-
         val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
 
         val adapter = PostAdapter(
@@ -39,11 +40,16 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onClick(post: Post) {
-                    findNavController().navigate(R.id.action_feedFragment_to_openPostFragment,
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_openPostFragment,
                         Bundle().apply {
                             longArg = post.id
                         }
                     )
+                }
+
+                override fun onDislike(post: Post) {
+                    viewModel.dislike(post.id)
                 }
 
                 override fun onShare(post: Post) {
@@ -85,9 +91,27 @@ class FeedFragment : Fragment() {
         binding.list.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiStaet.collect { postUiState ->
                     adapter.submitList(postUiState.posts)
+
+                    binding.swipeRefresh.isRefreshing = postUiState.loading
+
+                    postUiState.error?.let { errorText ->
+                        Snackbar.make(binding.root, "Произошла ошибка", Snackbar.LENGTH_LONG)
+                            .setAction("Повторить попытку") {
+                               viewModel.loadPostsFromServer()
+                            }
+                            .show()
+                    }
+
+                    if (postUiState.error == null && postUiState.loading == false && postUiState.empty) {
+                        binding.emptyPost.isVisible = true
+                    } else {
+                        binding.emptyPost.isVisible = false
+                    }
+
+
                 }
             }
         }
