@@ -7,20 +7,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.api.ApiProvider
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.SyncStatus
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
 import ru.netology.nmedia.ui.uiState.NetworkUiState
 import ru.netology.nmedia.ui.uiState.PostUiState
-import kotlinx.coroutines.flow.combine
 
-private val empty = Post()
+private val empty = Post(
+    syncStatus = SyncStatus.PENDING
+)
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -75,7 +76,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
 
     fun edit() {
-        edited.value = Post()
+        edited.value = Post(
+            syncStatus = SyncStatus.PENDING
+        )
     }
 
 

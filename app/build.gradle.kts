@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 
     id("com.google.devtools.ksp") version "2.3.9"
 
@@ -60,6 +59,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    //noinspection WrongGradleMethod
     kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -68,6 +68,36 @@ android {
 }
 
 dependencies {
+
+
+
+    val composeBom = platform("androidx.compose:compose-bom:2026.08.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    // Compose UI
+    implementation("androidx.compose.ui:ui")
+
+    // Material 3
+    implementation("androidx.compose.material3:material3")
+
+    // Activity + Compose
+    implementation("androidx.activity:activity-compose:1.13.0")
+
+    // Preview
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // ViewModel в Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
+
+    // collectAsStateWithLifecycle()
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
+
+    implementation("androidx.compose.material:material-icons-extended")
+
+
+
 
     implementation(libs.androidx.swiperefreshlayout)
     val navVersion = "2.8.9"
@@ -159,6 +189,7 @@ dependencies {
     implementation(
         libs.androidx.compose.ui.tooling.preview
     )
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta10")
 
     // Tests
     testImplementation(

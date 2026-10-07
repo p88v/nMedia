@@ -30,9 +30,7 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
-
         val viewModel by viewModels<PostViewModel>(ownerProducer = ::requireParentFragment)
 
         val adapter = PostAdapter(
